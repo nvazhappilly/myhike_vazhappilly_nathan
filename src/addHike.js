@@ -1,18 +1,18 @@
 import { db } from "./firebaseConfig.js";
+
+// Remember the logged-in user so we can save their ID with the hike
 import { onAuthReady } from "./authentication.js";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
-// Remember the logged-in user so we can save their ID with the hike
 let currentUser = null;
 
 onAuthReady(function (user) {
     if (!user) {
-        location.href = "index.html";   // Not logged in → go away
-        return;
+        location.href = "index.html";
+    } else {
+        currentUser = user;
     }
-    currentUser = user;                 // Logged in → remember them
 });
-
 // ---- (1) What to do when the form is submitted ----
 async function saveHike(event) {
     event.preventDefault();   // Stop the browser from reloading the page
