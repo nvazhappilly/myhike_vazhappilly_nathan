@@ -50,14 +50,19 @@ class SiteNavbar extends HTMLElement {
         // Pass a callback that runs when Firebase reports the login status
         onAuthReady(function (user) { // Receives the user object (or null)
 
-            if (user) { // User is logged in
-                authControls.innerHTML = `<button class="btn btn-outline-light" id="signOutBtn" type="button" style="min-width: 80px;">Log out</button>`;
+            const authControls = document.getElementById('authControls'); // Make sure this matches your selector
 
-                const signOutBtn = authControls.querySelector('#signOutBtn');
-                signOutBtn.addEventListener('click', logoutUser); // Callback: runs when Log out is clicked
+            if (authControls) {
+                if (user) { // User is logged in
+                    authControls.innerHTML = `<button class="btn btn-outline-light" id="signOutBtn" type="button" style="min-width: 80px;">Log out</button>`;
 
-            } else { // User is NOT logged in, and gets redirected to login page if user clicks the login button
-                authControls.innerHTML = `<a class="btn btn-outline-light" id="loginBtn" href="/login.html" style="min-width: 80px;">Log in</a>`;
+                    const signOutBtn = authControls.querySelector('#signOutBtn');
+                    if (signOutBtn) {
+                        signOutBtn.addEventListener('click', logoutUser);
+                    }
+                } else { // User is NOT logged in
+                    authControls.innerHTML = `<a class="btn btn-outline-light" id="loginBtn" href="/login.html" style="min-width: 80px;">Log in</a>`;
+                }
             }
         });
     }
